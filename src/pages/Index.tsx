@@ -3,17 +3,20 @@ import LoadingScreen from "@/components/LoadingScreen";
 import Navbar from "@/components/Navbar";
 import Minimap from "@/components/Minimap";
 import Scene3D from "@/components/Scene3D";
+import SoundToggle from "@/components/SoundToggle";
 import HeroZone from "@/components/zones/HeroZone";
 import ProjectsZone from "@/components/zones/ProjectsZone";
 import SkillsZone from "@/components/zones/SkillsZone";
 import AboutZone from "@/components/zones/AboutZone";
 import ContactZone from "@/components/zones/ContactZone";
+import { useSoundSystem } from "@/hooks/useSoundSystem";
 
 const Index = () => {
   const [loaded, setLoaded] = useState(false);
   const [activeZone, setActiveZone] = useState("hero");
   const containerRef = useRef<HTMLDivElement>(null);
   const zoneRefs = useRef<Record<string, HTMLDivElement | null>>({});
+  const { muted, toggleMute } = useSoundSystem();
 
   const navigateTo = useCallback((zone: string) => {
     setActiveZone(zone);
@@ -54,6 +57,7 @@ const Index = () => {
       <Scene3D />
       <Navbar activeZone={activeZone} onNavigate={navigateTo} />
       <Minimap activeZone={activeZone} onNavigate={navigateTo} />
+      <SoundToggle muted={muted} onToggle={toggleMute} />
 
       <div ref={containerRef} className="relative z-10 overflow-y-auto h-screen snap-y snap-mandatory" style={{ scrollBehavior: "smooth" }}>
         <div ref={(el) => { zoneRefs.current["hero"] = el; }} data-zone="hero" className="snap-start">

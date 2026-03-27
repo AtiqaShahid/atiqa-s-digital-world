@@ -121,14 +121,28 @@ const projects: Project[] = [
   },
 ];
 
-const ProjectCard = ({ project, index, onClick }: { project: Project; index: number; onClick: () => void }) => (
+const ProjectCard = ({ project, index, onClick }: { project: Project; index: number; onClick: () => void }) => {
+  const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
+    const rect = e.currentTarget.getBoundingClientRect();
+    const x = ((e.clientX - rect.left) / rect.width - 0.5) * 2;
+    const y = ((e.clientY - rect.top) / rect.height - 0.5) * 2;
+    e.currentTarget.style.transform = `perspective(800px) rotateY(${x * 6}deg) rotateX(${-y * 6}deg) translateY(-4px)`;
+  };
+  const handleMouseLeave = (e: React.MouseEvent<HTMLDivElement>) => {
+    e.currentTarget.style.transform = "perspective(800px) rotateY(0deg) rotateX(0deg) translateY(0px)";
+  };
+
+  return (
   <motion.div
     initial={{ opacity: 0, y: 30 }}
     whileInView={{ opacity: 1, y: 0 }}
     viewport={{ once: true }}
     transition={{ delay: index * 0.08, duration: 0.5 }}
     onClick={onClick}
-    className={`group glass-panel rounded-xl p-5 cursor-pointer hover-glow transition-all duration-300 hover:-translate-y-1 ${
+    onMouseMove={handleMouseMove}
+    onMouseLeave={handleMouseLeave}
+    style={{ transition: "transform 0.2s ease-out", transformStyle: "preserve-3d" }}
+    className={`group glass-panel rounded-xl p-5 cursor-pointer hover-glow ${
       project.featured ? "md:col-span-2 border-primary/20" : ""
     }`}
   >

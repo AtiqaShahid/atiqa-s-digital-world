@@ -89,42 +89,20 @@ const ContactZone = () => {
         initial={{ opacity: 0, y: 20 }}
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true }}
-        className="glass-panel rounded-xl p-8 w-full max-w-lg"
+        className="glass-panel rounded-xl p-8 w-full max-w-lg text-center"
       >
-        <h3 className="font-display font-semibold text-lg mb-6 text-center">Send a Message</h3>
-        <form className="space-y-4" onSubmit={(e) => e.preventDefault()}>
-          <div>
-            <label className="font-mono text-xs text-muted-foreground mb-1 block">Name</label>
-            <input
-              type="text"
-              placeholder="Your name"
-              className="w-full bg-muted/50 border border-border/50 rounded-lg px-4 py-2.5 text-sm text-foreground placeholder:text-muted-foreground/50 focus:outline-none focus:border-primary/50 transition-colors font-display"
-            />
-          </div>
-          <div>
-            <label className="font-mono text-xs text-muted-foreground mb-1 block">Email</label>
-            <input
-              type="email"
-              placeholder="your@email.com"
-              className="w-full bg-muted/50 border border-border/50 rounded-lg px-4 py-2.5 text-sm text-foreground placeholder:text-muted-foreground/50 focus:outline-none focus:border-primary/50 transition-colors font-display"
-            />
-          </div>
-          <div>
-            <label className="font-mono text-xs text-muted-foreground mb-1 block">Message</label>
-            <textarea
-              rows={4}
-              placeholder="Tell me about your project..."
-              className="w-full bg-muted/50 border border-border/50 rounded-lg px-4 py-2.5 text-sm text-foreground placeholder:text-muted-foreground/50 focus:outline-none focus:border-primary/50 transition-colors resize-none font-display"
-            />
-          </div>
-          <button
-            type="submit"
-            className="w-full py-3 rounded-lg font-display font-medium text-sm text-primary-foreground transition-transform hover:scale-[1.02]"
-            style={{ background: "var(--gradient-hero)" }}
-          >
-            Send Message
-          </button>
-        </form>
+        <h3 className="font-display font-semibold text-lg mb-3">Prefer to connect directly?</h3>
+        <p className="text-sm text-muted-foreground mb-6">Reach out via LinkedIn for the fastest response.</p>
+        <a
+          href="https://linkedin.com/in/atiqa-shahid"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="inline-flex items-center gap-2 px-6 py-3 rounded-lg font-display font-medium text-sm text-primary-foreground transition-transform hover:scale-[1.02]"
+          style={{ background: "var(--gradient-hero)" }}
+        >
+          <Linkedin className="h-4 w-4" />
+          Connect on LinkedIn
+        </a>
       </motion.div>
 
       <motion.p

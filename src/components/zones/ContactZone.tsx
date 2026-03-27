@@ -1,5 +1,5 @@
 import { motion } from "framer-motion";
-import { Mail, Phone, MapPin, Copy, Check } from "lucide-react";
+import { Mail, MapPin, Copy, Check, Github, Linkedin } from "lucide-react";
 import { useState } from "react";
 
 const ContactZone = () => {
@@ -12,9 +12,13 @@ const ContactZone = () => {
   };
 
   const contactInfo = [
-    { icon: Mail, label: "Email", value: "atiqashahid@email.com", field: "email" },
-    { icon: Phone, label: "Phone", value: "+92 XXX XXXXXXX", field: "phone" },
+    { icon: Mail, label: "Email", value: "atiqashahid03011@gmail.com", field: "email" },
     { icon: MapPin, label: "Location", value: "Pakistan", field: "location" },
+  ];
+
+  const socialLinks = [
+    { icon: Github, label: "GitHub", href: "https://github.com/AtiqaShahid" },
+    { icon: Linkedin, label: "LinkedIn", href: "https://linkedin.com/in/atiqa-shahid" },
   ];
 
   return (
@@ -35,7 +39,7 @@ const ContactZone = () => {
         </p>
       </motion.div>
 
-      <div className="grid sm:grid-cols-3 gap-4 w-full max-w-2xl mb-10">
+      <div className="grid sm:grid-cols-2 gap-4 w-full max-w-md mb-6">
         {contactInfo.map((info, i) => (
           <motion.button
             key={info.field}
@@ -59,6 +63,27 @@ const ContactZone = () => {
           </motion.button>
         ))}
       </div>
+
+      {/* Social Links */}
+      <motion.div
+        initial={{ opacity: 0, y: 20 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true }}
+        className="flex items-center gap-3 mb-10"
+      >
+        {socialLinks.map((social) => (
+          <a
+            key={social.label}
+            href={social.href}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="glass-panel rounded-lg px-5 py-3 flex items-center gap-2 hover-glow transition-all hover:scale-105 group"
+          >
+            <social.icon className="h-4 w-4 text-primary group-hover:scale-110 transition-transform" />
+            <span className="font-display text-sm text-foreground">{social.label}</span>
+          </a>
+        ))}
+      </motion.div>
 
       <motion.div
         initial={{ opacity: 0, y: 20 }}

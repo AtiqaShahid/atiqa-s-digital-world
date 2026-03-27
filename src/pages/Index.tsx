@@ -54,7 +54,7 @@ const Index = () => {
 
   return (
     <div className="relative bg-background">
-      <Scene3D />
+      <Scene3D activeZone={activeZone} />
       <Navbar activeZone={activeZone} onNavigate={navigateTo} />
       <Minimap activeZone={activeZone} onNavigate={navigateTo} />
       <SoundToggle muted={muted} onToggle={toggleMute} />

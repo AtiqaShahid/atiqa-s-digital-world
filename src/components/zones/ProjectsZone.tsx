@@ -185,7 +185,8 @@ const ProjectCard = ({ project, index, onClick }: { project: Project; index: num
       ))}
     </div>
   </motion.div>
-);
+  );
+};
 
 const ProjectsZone = () => {
   const [selectedProject, setSelectedProject] = useState<Project | null>(null);

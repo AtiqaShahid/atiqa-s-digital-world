@@ -24,15 +24,13 @@ const AboutZone = () => {
         >
           <div className="flex items-center gap-2 mb-2">
             <div className="h-6 w-1 rounded-full bg-primary" />
-            <h3 className="font-display font-semibold text-lg">The Journey</h3>
+            <h3 className="font-display font-semibold text-lg">The Vision</h3>
           </div>
           <p className="text-sm text-muted-foreground leading-relaxed">
-            I started as a curious learner fascinated by how websites come to life. That curiosity turned into a passion 
-            for full-stack development — crafting experiences that are both beautiful and functional.
+            I'm a passionate Full Stack Developer driven by the excitement of turning ideas into powerful, immersive digital experiences. I don't just build websites—I craft environments that feel dynamic, interactive, and alive.
           </p>
           <p className="text-sm text-muted-foreground leading-relaxed">
-            From building responsive landing pages to developing full-stack platforms, each project has been a step 
-            deeper into the craft. I don't just write code — I solve problems creatively.
+            Every project I take on is an opportunity to blend creativity with logic, transforming simple concepts into visually engaging and highly functional platforms.
           </p>
         </motion.div>
 
@@ -44,15 +42,13 @@ const AboutZone = () => {
         >
           <div className="flex items-center gap-2 mb-2">
             <div className="h-6 w-1 rounded-full bg-neon-purple" />
-            <h3 className="font-display font-semibold text-lg">What Drives Me</h3>
+            <h3 className="font-display font-semibold text-lg">The Craft</h3>
           </div>
           <p className="text-sm text-muted-foreground leading-relaxed">
-            I believe great software sits at the intersection of design thinking, technical precision, and user empathy. 
-            That's the sweet spot I aim for with every project.
+            With a strong grip on both frontend and backend development, I enjoy creating seamless systems where design meets performance. From fluid animations and modern UI/UX to robust architectures and API integrations, I focus on delivering experiences that are not only efficient but unforgettable.
           </p>
           <p className="text-sm text-muted-foreground leading-relaxed">
-            Currently expanding into data analysis — learning Python, SQL, Power BI, and Tableau to bring 
-            data-driven insights into my development workflow and unlock new ways of building smarter products.
+            I'm especially drawn to pushing boundaries—adding depth, motion, and personality to make each product stand out.
           </p>
         </motion.div>
 
@@ -64,20 +60,15 @@ const AboutZone = () => {
         >
           <div className="flex items-center gap-2 mb-4">
             <div className="h-6 w-1 rounded-full bg-neon-green" />
-            <h3 className="font-display font-semibold text-lg">Quick Facts</h3>
+            <h3 className="font-display font-semibold text-lg">The Journey</h3>
           </div>
-          <div className="grid sm:grid-cols-3 gap-4">
-            {[
-              { label: "Focus", value: "Full Stack Development", icon: "🚀" },
-              { label: "Growing In", value: "Data Analysis & Visualization", icon: "📊" },
-              { label: "Philosophy", value: "Build beautiful, functional things", icon: "✨" },
-            ].map((fact) => (
-              <div key={fact.label} className="glass-panel-subtle rounded-lg p-4 text-center">
-                <span className="text-2xl mb-2 block">{fact.icon}</span>
-                <p className="font-mono text-[10px] text-muted-foreground uppercase tracking-wider mb-1">{fact.label}</p>
-                <p className="text-sm font-display font-medium text-foreground">{fact.value}</p>
-              </div>
-            ))}
+          <div className="grid sm:grid-cols-2 gap-4">
+            <p className="text-sm text-muted-foreground leading-relaxed">
+              For me, development is more than a skill—it's a creative process of innovation and problem-solving. I'm constantly exploring new technologies, refining my approach, and aiming to build solutions that make an impact.
+            </p>
+            <p className="text-sm text-muted-foreground leading-relaxed">
+              Alongside this, I'm currently diving into Data Analysis—learning how to interpret data, uncover insights, and integrate intelligence into applications. It's an evolving journey, and I'm excited to merge development with data to create smarter, more meaningful digital experiences.
+            </p>
           </div>
         </motion.div>
       </div>

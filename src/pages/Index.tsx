@@ -1,4 +1,4 @@
-import { useState, useCallback, useRef, useEffect } from "react";
+import { useState, useCallback } from "react";
 import LoadingScreen from "@/components/LoadingScreen";
 import Navbar from "@/components/Navbar";
 import Minimap from "@/components/Minimap";
@@ -10,71 +10,65 @@ import SkillsZone from "@/components/zones/SkillsZone";
 import AboutZone from "@/components/zones/AboutZone";
 import ContactZone from "@/components/zones/ContactZone";
 import { useSoundSystem } from "@/hooks/useSoundSystem";
+import { AnimatePresence, motion } from "framer-motion";
+
+const zoneTransition = {
+  initial: { opacity: 0, scale: 0.95, y: 20 },
+  animate: { opacity: 1, scale: 1, y: 0 },
+  exit: { opacity: 0, scale: 0.95, y: -20 },
+  transition: { duration: 0.5, ease: [0.22, 1, 0.36, 1] },
+};
 
 const Index = () => {
   const [loaded, setLoaded] = useState(false);
   const [activeZone, setActiveZone] = useState("hero");
-  const containerRef = useRef<HTMLDivElement>(null);
-  const zoneRefs = useRef<Record<string, HTMLDivElement | null>>({});
   const { muted, toggleMute } = useSoundSystem();
 
   const navigateTo = useCallback((zone: string) => {
+    if (zone === activeZone) return;
     setActiveZone(zone);
-    zoneRefs.current[zone]?.scrollIntoView({ behavior: "smooth" });
-  }, []);
-
-  useEffect(() => {
-    const container = containerRef.current;
-    if (!container) return;
-
-    const zones = ["hero", "projects", "skills", "about", "contact"];
-    const observer = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) {
-            const id = entry.target.getAttribute("data-zone");
-            if (id) setActiveZone(id);
-          }
-        });
-      },
-      { threshold: 0.4 }
-    );
-
-    zones.forEach((z) => {
-      const el = zoneRefs.current[z];
-      if (el) observer.observe(el);
-    });
-
-    return () => observer.disconnect();
-  }, [loaded]);
+  }, [activeZone]);
 
   if (!loaded) {
     return <LoadingScreen onComplete={() => setLoaded(true)} />;
   }
 
   return (
-    <div className="relative bg-background">
+    <div className="relative bg-background w-screen h-screen overflow-hidden">
       <Scene3D activeZone={activeZone} />
       <Navbar activeZone={activeZone} onNavigate={navigateTo} />
       <Minimap activeZone={activeZone} onNavigate={navigateTo} />
       <SoundToggle muted={muted} onToggle={toggleMute} />
 
-      <div ref={containerRef} className="relative z-10 overflow-y-auto h-screen snap-y snap-mandatory" style={{ scrollBehavior: "smooth" }}>
-        <div ref={(el) => { zoneRefs.current["hero"] = el; }} data-zone="hero" className="snap-start">
-          <HeroZone onNavigate={navigateTo} />
-        </div>
-        <div ref={(el) => { zoneRefs.current["projects"] = el; }} data-zone="projects" className="snap-start">
-          <ProjectsZone />
-        </div>
-        <div ref={(el) => { zoneRefs.current["skills"] = el; }} data-zone="skills" className="snap-start">
-          <SkillsZone />
-        </div>
-        <div ref={(el) => { zoneRefs.current["about"] = el; }} data-zone="about" className="snap-start">
-          <AboutZone />
-        </div>
-        <div ref={(el) => { zoneRefs.current["contact"] = el; }} data-zone="contact" className="snap-start">
-          <ContactZone />
-        </div>
+      {/* Zone content overlays — only active zone visible */}
+      <div className="relative z-10 w-full h-full">
+        <AnimatePresence mode="wait">
+          {activeZone === "hero" && (
+            <motion.div key="hero" {...zoneTransition} className="absolute inset-0 overflow-y-auto">
+              <HeroZone onNavigate={navigateTo} />
+            </motion.div>
+          )}
+          {activeZone === "projects" && (
+            <motion.div key="projects" {...zoneTransition} className="absolute inset-0 overflow-y-auto">
+              <ProjectsZone />
+            </motion.div>
+          )}
+          {activeZone === "skills" && (
+            <motion.div key="skills" {...zoneTransition} className="absolute inset-0 overflow-y-auto">
+              <SkillsZone />
+            </motion.div>
+          )}
+          {activeZone === "about" && (
+            <motion.div key="about" {...zoneTransition} className="absolute inset-0 overflow-y-auto">
+              <AboutZone />
+            </motion.div>
+          )}
+          {activeZone === "contact" && (
+            <motion.div key="contact" {...zoneTransition} className="absolute inset-0 overflow-y-auto">
+              <ContactZone />
+            </motion.div>
+          )}
+        </AnimatePresence>
       </div>
     </div>
   );

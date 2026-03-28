@@ -3,35 +3,79 @@ import { Stars, Float } from "@react-three/drei";
 import { Suspense, useRef, useMemo, useEffect } from "react";
 import * as THREE from "three";
 
-// Zone color configs
-const zoneConfigs: Record<string, { primary: string; secondary: string; fog: string; intensity: number }> = {
-  hero: { primary: "hsl(195, 100%, 50%)", secondary: "hsl(270, 80%, 60%)", fog: "hsl(230, 25%, 5%)", intensity: 1 },
-  projects: { primary: "hsl(270, 80%, 60%)", secondary: "hsl(330, 85%, 60%)", fog: "hsl(260, 25%, 4%)", intensity: 1.2 },
-  skills: { primary: "hsl(160, 80%, 45%)", secondary: "hsl(195, 100%, 50%)", fog: "hsl(180, 20%, 4%)", intensity: 1.1 },
-  about: { primary: "hsl(270, 80%, 60%)", secondary: "hsl(195, 100%, 50%)", fog: "hsl(250, 25%, 5%)", intensity: 0.8 },
-  contact: { primary: "hsl(330, 85%, 60%)", secondary: "hsl(270, 80%, 60%)", fog: "hsl(300, 20%, 4%)", intensity: 0.9 },
+// Zone camera positions and color configs
+const zoneConfigs: Record<string, {
+  primary: string; secondary: string; fog: string; intensity: number;
+  camera: [number, number, number]; lookAt: [number, number, number];
+}> = {
+  hero: {
+    primary: "hsl(195, 100%, 50%)", secondary: "hsl(270, 80%, 60%)",
+    fog: "hsl(230, 25%, 5%)", intensity: 1,
+    camera: [0, 0, 8], lookAt: [0, 0, 0],
+  },
+  projects: {
+    primary: "hsl(270, 80%, 60%)", secondary: "hsl(330, 85%, 60%)",
+    fog: "hsl(260, 25%, 4%)", intensity: 1.2,
+    camera: [6, 2, 6], lookAt: [2, 0, -2],
+  },
+  skills: {
+    primary: "hsl(160, 80%, 45%)", secondary: "hsl(195, 100%, 50%)",
+    fog: "hsl(180, 20%, 4%)", intensity: 1.1,
+    camera: [-5, 3, 5], lookAt: [-2, 1, 0],
+  },
+  about: {
+    primary: "hsl(270, 80%, 60%)", secondary: "hsl(195, 100%, 50%)",
+    fog: "hsl(250, 25%, 5%)", intensity: 0.8,
+    camera: [0, 4, 7], lookAt: [0, 2, 0],
+  },
+  contact: {
+    primary: "hsl(330, 85%, 60%)", secondary: "hsl(270, 80%, 60%)",
+    fog: "hsl(300, 20%, 4%)", intensity: 0.9,
+    camera: [4, 1, 9], lookAt: [0, 0, 2],
+  },
 };
 
-function MouseTracker() {
+function CameraController({ activeZone }: { activeZone: string }) {
   const { camera } = useThree();
-  const target = useRef({ x: 0, y: 0 });
-  const current = useRef({ x: 0, y: 0 });
+  const targetPos = useRef(new THREE.Vector3(0, 0, 8));
+  const targetLookAt = useRef(new THREE.Vector3(0, 0, 0));
+  const currentLookAt = useRef(new THREE.Vector3(0, 0, 0));
+  const mouseOffset = useRef({ x: 0, y: 0 });
+  const mouseTarget = useRef({ x: 0, y: 0 });
+
+  useEffect(() => {
+    const config = zoneConfigs[activeZone] || zoneConfigs.hero;
+    targetPos.current.set(...config.camera);
+    targetLookAt.current.set(...config.lookAt);
+  }, [activeZone]);
 
   useEffect(() => {
     const onMove = (e: MouseEvent) => {
-      target.current.x = ((e.clientX / window.innerWidth) - 0.5) * 0.5;
-      target.current.y = ((e.clientY / window.innerHeight) - 0.5) * -0.3;
+      mouseTarget.current.x = ((e.clientX / window.innerWidth) - 0.5) * 0.6;
+      mouseTarget.current.y = ((e.clientY / window.innerHeight) - 0.5) * -0.4;
     };
     window.addEventListener("mousemove", onMove);
     return () => window.removeEventListener("mousemove", onMove);
   }, []);
 
   useFrame(() => {
-    current.current.x += (target.current.x - current.current.x) * 0.02;
-    current.current.y += (target.current.y - current.current.y) * 0.02;
-    camera.position.x = current.current.x * 2;
-    camera.position.y = current.current.y * 1.5;
-    camera.lookAt(0, 0, 0);
+    // Smooth mouse offset
+    mouseOffset.current.x += (mouseTarget.current.x - mouseOffset.current.x) * 0.03;
+    mouseOffset.current.y += (mouseTarget.current.y - mouseOffset.current.y) * 0.03;
+
+    // Smooth camera position with inertia
+    camera.position.lerp(
+      new THREE.Vector3(
+        targetPos.current.x + mouseOffset.current.x * 1.5,
+        targetPos.current.y + mouseOffset.current.y * 1,
+        targetPos.current.z
+      ),
+      0.035
+    );
+
+    // Smooth look-at
+    currentLookAt.current.lerp(targetLookAt.current, 0.035);
+    camera.lookAt(currentLookAt.current);
   });
 
   return null;
@@ -80,17 +124,14 @@ function FloatingSphere({ activeZone }: { activeZone: string }) {
   return (
     <Float speed={1.5} rotationIntensity={0.3} floatIntensity={1.5}>
       <group>
-        {/* Outer wireframe */}
         <mesh ref={meshRef}>
           <icosahedronGeometry args={[1.8, 1]} />
           <meshStandardMaterial color={config.primary} wireframe transparent opacity={0.25} />
         </mesh>
-        {/* Inner wireframe */}
         <mesh ref={innerRef}>
           <icosahedronGeometry args={[1.3, 2]} />
           <meshStandardMaterial color={config.secondary} wireframe transparent opacity={0.15} />
         </mesh>
-        {/* Glowing core */}
         <mesh ref={coreRef}>
           <sphereGeometry args={[0.4, 32, 32]} />
           <meshStandardMaterial color={config.primary} emissive={config.primary} emissiveIntensity={2} transparent opacity={0.6} />
@@ -137,12 +178,12 @@ function FloatingNodes({ activeZone }: { activeZone: string }) {
 
   const nodes = useMemo(() => {
     const arr = [];
-    for (let i = 0; i < 8; i++) {
-      const angle = (i / 8) * Math.PI * 2;
-      const r = 4 + Math.random() * 2;
+    for (let i = 0; i < 12; i++) {
+      const angle = (i / 12) * Math.PI * 2;
+      const r = 4 + Math.random() * 3;
       arr.push({
-        pos: [Math.cos(angle) * r, (Math.random() - 0.5) * 3, Math.sin(angle) * r] as [number, number, number],
-        size: 0.05 + Math.random() * 0.08,
+        pos: [Math.cos(angle) * r, (Math.random() - 0.5) * 4, Math.sin(angle) * r] as [number, number, number],
+        size: 0.04 + Math.random() * 0.08,
         speed: 0.5 + Math.random() * 1,
       });
     }
@@ -151,7 +192,7 @@ function FloatingNodes({ activeZone }: { activeZone: string }) {
 
   useFrame((state) => {
     if (groupRef.current) {
-      groupRef.current.rotation.y = state.clock.elapsedTime * 0.05;
+      groupRef.current.rotation.y = state.clock.elapsedTime * 0.04;
     }
   });
 
@@ -175,14 +216,66 @@ function FloatingNodes({ activeZone }: { activeZone: string }) {
   );
 }
 
+function ZoneHotspots({ activeZone }: { activeZone: string }) {
+  const groupRef = useRef<THREE.Group>(null);
+
+  // Pulsing hotspot nodes positioned around the world
+  const hotspots = useMemo(() => [
+    { pos: [3, 1, -3] as [number, number, number], zone: "projects", color: "hsl(270, 80%, 60%)" },
+    { pos: [-4, 2, -1] as [number, number, number], zone: "skills", color: "hsl(160, 80%, 45%)" },
+    { pos: [0, 3.5, -2] as [number, number, number], zone: "about", color: "hsl(270, 80%, 60%)" },
+    { pos: [3, 0.5, 3] as [number, number, number], zone: "contact", color: "hsl(330, 85%, 60%)" },
+  ], []);
+
+  useFrame((state) => {
+    if (groupRef.current) {
+      groupRef.current.children.forEach((child, i) => {
+        const t = state.clock.elapsedTime + i * 1.5;
+        child.scale.setScalar(1 + Math.sin(t * 2) * 0.15);
+      });
+    }
+  });
+
+  return (
+    <group ref={groupRef}>
+      {hotspots.filter(h => h.zone !== activeZone).map((hotspot, i) => (
+        <Float key={i} speed={1} floatIntensity={0.3}>
+          <mesh position={hotspot.pos}>
+            <sphereGeometry args={[0.12, 16, 16]} />
+            <meshStandardMaterial
+              color={hotspot.color}
+              emissive={hotspot.color}
+              emissiveIntensity={4}
+              transparent
+              opacity={0.7}
+            />
+          </mesh>
+          {/* Outer glow ring */}
+          <mesh position={hotspot.pos} rotation={[Math.PI / 2, 0, 0]}>
+            <ringGeometry args={[0.18, 0.22, 32]} />
+            <meshStandardMaterial
+              color={hotspot.color}
+              emissive={hotspot.color}
+              emissiveIntensity={2}
+              transparent
+              opacity={0.3}
+              side={THREE.DoubleSide}
+            />
+          </mesh>
+        </Float>
+      ))}
+    </group>
+  );
+}
+
 function ParticleField() {
-  const count = 300;
+  const count = 400;
   const positions = useMemo(() => {
     const p = new Float32Array(count * 3);
     for (let i = 0; i < count; i++) {
-      p[i * 3] = (Math.random() - 0.5) * 40;
-      p[i * 3 + 1] = (Math.random() - 0.5) * 25;
-      p[i * 3 + 2] = (Math.random() - 0.5) * 40;
+      p[i * 3] = (Math.random() - 0.5) * 50;
+      p[i * 3 + 1] = (Math.random() - 0.5) * 30;
+      p[i * 3 + 2] = (Math.random() - 0.5) * 50;
     }
     return p;
   }, []);
@@ -190,8 +283,8 @@ function ParticleField() {
   const ref = useRef<THREE.Points>(null);
   useFrame((state) => {
     if (ref.current) {
-      ref.current.rotation.y = state.clock.elapsedTime * 0.015;
-      ref.current.rotation.x = Math.sin(state.clock.elapsedTime * 0.1) * 0.05;
+      ref.current.rotation.y = state.clock.elapsedTime * 0.01;
+      ref.current.rotation.x = Math.sin(state.clock.elapsedTime * 0.05) * 0.03;
     }
   });
 
@@ -200,7 +293,7 @@ function ParticleField() {
       <bufferGeometry>
         <bufferAttribute attach="attributes-position" count={count} array={positions} itemSize={3} />
       </bufferGeometry>
-      <pointsMaterial size={0.04} color="hsl(195, 100%, 70%)" transparent opacity={0.5} sizeAttenuation />
+      <pointsMaterial size={0.04} color="hsl(195, 100%, 70%)" transparent opacity={0.4} sizeAttenuation />
     </points>
   );
 }
@@ -246,17 +339,18 @@ const Scene3D = ({ activeZone = "hero" }: Scene3DProps) => {
         gl={{ antialias: true, alpha: true }}
       >
         <Suspense fallback={null}>
+          <CameraController activeZone={activeZone} />
           <ZoneLights activeZone={activeZone} />
 
           <FloatingSphere activeZone={activeZone} />
           <OrbitalRings activeZone={activeZone} />
           <FloatingNodes activeZone={activeZone} />
+          <ZoneHotspots activeZone={activeZone} />
           <GridFloor />
           <ParticleField />
           <Stars radius={50} depth={50} count={1500} factor={2} saturation={0.5} fade speed={0.3} />
 
-          <MouseTracker />
-          <fog attach="fog" args={["hsl(230, 25%, 5%)", 6, 22]} />
+          <fog attach="fog" args={["hsl(230, 25%, 5%)", 6, 25]} />
         </Suspense>
       </Canvas>
     </div>

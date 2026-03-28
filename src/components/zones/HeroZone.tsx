@@ -9,7 +9,7 @@ const HeroZone = ({ onNavigate }: HeroZoneProps) => {
   const mouse = useMouseParallax(1);
 
   return (
-    <div className="relative z-10 flex flex-col items-center justify-center min-h-screen px-6 text-center overflow-hidden">
+    <div className="relative z-10 flex flex-col items-center justify-center h-full px-6 text-center overflow-hidden">
       {/* Parallax floating decorative elements */}
       <div
         className="absolute inset-0 pointer-events-none"
@@ -21,9 +21,7 @@ const HeroZone = ({ onNavigate }: HeroZoneProps) => {
         <div className="absolute bottom-[35%] left-[12%] w-1.5 h-1.5 rounded-full bg-neon-green/50 animate-pulse" />
       </div>
 
-      <div
-        style={{ transform: `translate(${mouse.x * -8}px, ${mouse.y * -8}px)` }}
-      >
+      <div style={{ transform: `translate(${mouse.x * -8}px, ${mouse.y * -8}px)` }}>
         <motion.div
           initial={{ opacity: 0, scale: 0.8 }}
           animate={{ opacity: 1, scale: 1 }}
@@ -97,20 +95,25 @@ const HeroZone = ({ onNavigate }: HeroZoneProps) => {
         </button>
       </motion.div>
 
+      {/* Zone hint indicator */}
       <motion.div
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ delay: 1.2 }}
         className="absolute bottom-10 flex flex-col items-center gap-2"
       >
-        <span className="font-mono text-[10px] text-muted-foreground/50 tracking-widest uppercase">Scroll to explore</span>
-        <motion.div
-          animate={{ y: [0, 8, 0] }}
-          transition={{ repeat: Infinity, duration: 2 }}
-          className="w-5 h-8 rounded-full border border-primary/30 flex justify-center pt-1.5"
-        >
-          <div className="w-1 h-2 rounded-full bg-primary/60" />
-        </motion.div>
+        <span className="font-mono text-[10px] text-muted-foreground/50 tracking-widest uppercase">
+          Use navigation to explore zones
+        </span>
+        <div className="flex gap-1.5">
+          {["projects", "skills", "about", "contact"].map((z) => (
+            <button
+              key={z}
+              onClick={() => onNavigate(z)}
+              className="h-1.5 w-6 rounded-full bg-muted-foreground/20 hover:bg-primary/50 transition-colors"
+            />
+          ))}
+        </div>
       </motion.div>
     </div>
   );

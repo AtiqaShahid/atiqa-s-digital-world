@@ -22,12 +22,11 @@ const ContactZone = () => {
   ];
 
   return (
-    <div className="relative z-10 min-h-screen px-6 py-24 max-w-4xl mx-auto flex flex-col items-center justify-center">
+    <div className="relative z-10 h-full px-6 py-20 max-w-4xl mx-auto flex flex-col items-center justify-center">
       <motion.div
         initial={{ opacity: 0, y: 20 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        viewport={{ once: true }}
-        className="text-center mb-12"
+        animate={{ opacity: 1, y: 0 }}
+        className="text-center mb-10"
       >
         <span className="font-mono text-xs text-neon-pink tracking-widest uppercase">Connect</span>
         <h2 className="text-3xl sm:text-5xl font-display font-bold mt-2 mb-4">
@@ -44,8 +43,7 @@ const ContactZone = () => {
           <motion.button
             key={info.field}
             initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
+            animate={{ opacity: 1, y: 0 }}
             transition={{ delay: i * 0.1 }}
             onClick={() => copyToClipboard(info.value, info.field)}
             className="glass-panel rounded-xl p-5 text-center hover-glow transition-all group"
@@ -67,9 +65,9 @@ const ContactZone = () => {
       {/* Social Links */}
       <motion.div
         initial={{ opacity: 0, y: 20 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        viewport={{ once: true }}
-        className="flex items-center gap-3 mb-10"
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ delay: 0.2 }}
+        className="flex items-center gap-3 mb-8"
       >
         {socialLinks.map((social) => (
           <a
@@ -87,8 +85,8 @@ const ContactZone = () => {
 
       <motion.div
         initial={{ opacity: 0, y: 20 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        viewport={{ once: true }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ delay: 0.3 }}
         className="glass-panel rounded-xl p-8 w-full max-w-lg text-center"
       >
         <h3 className="font-display font-semibold text-lg mb-3">Prefer to connect directly?</h3>
@@ -107,9 +105,9 @@ const ContactZone = () => {
 
       <motion.p
         initial={{ opacity: 0 }}
-        whileInView={{ opacity: 1 }}
-        viewport={{ once: true }}
-        className="font-mono text-[10px] text-muted-foreground/40 mt-12 text-center"
+        animate={{ opacity: 1 }}
+        transition={{ delay: 0.5 }}
+        className="font-mono text-[10px] text-muted-foreground/40 mt-10 text-center"
       >
         Designed & built by Atiqa Shahid · {new Date().getFullYear()}
       </motion.p>

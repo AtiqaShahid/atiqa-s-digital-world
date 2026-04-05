@@ -17,6 +17,24 @@ interface Project {
 
 const featuredProjects: Project[] = [
   {
+    name: "PersonaX",
+    description: "A full-scale AI-powered personalization and productivity platform focused on intelligent dashboards, habit optimization, and user-driven customization.",
+    highlights: [
+      "Built a dynamic dashboard system with draggable and persistent widgets per user",
+      "Engineered a personalized onboarding flow with adaptive questioning logic",
+      "Developed an AI suggestion engine providing actionable, behavior-based improvements",
+      "Implemented user-specific state persistence for layouts, preferences, and widgets",
+      "Designed a modular widget system for habits, productivity, and lifestyle tracking",
+      "Integrated intelligent recommendation logic for continuous user improvement",
+      "Created a responsive UI optimized for both desktop and mobile experiences",
+    ],
+    positioning: "A production-level platform combining personalization, habit intelligence, and adaptive user experience.",
+    tech: ["React", "AI Systems", "Personalization", "Dashboards", "Full Stack", "UX Optimization"],
+    link: "https://personax-seven.vercel.app/",
+    featured: true,
+    category: "web",
+  },
+  {
     name: "Nocturne Café Experience",
     description: "An immersive café-themed interactive website combining storytelling, atmosphere, and interactive UI experiences.",
     highlights: [

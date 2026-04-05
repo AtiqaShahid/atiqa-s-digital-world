@@ -59,22 +59,19 @@ function CameraController({ activeZone }: { activeZone: string }) {
   }, []);
 
   useFrame(() => {
-    // Smooth mouse offset
     mouseOffset.current.x += (mouseTarget.current.x - mouseOffset.current.x) * 0.03;
     mouseOffset.current.y += (mouseTarget.current.y - mouseOffset.current.y) * 0.03;
 
-    // Smooth camera position with inertia
     camera.position.lerp(
       new THREE.Vector3(
         targetPos.current.x + mouseOffset.current.x * 1.5,
         targetPos.current.y + mouseOffset.current.y * 1,
         targetPos.current.z
       ),
-      0.035
+      0.025
     );
 
-    // Smooth look-at
-    currentLookAt.current.lerp(targetLookAt.current, 0.035);
+    currentLookAt.current.lerp(targetLookAt.current, 0.025);
     camera.lookAt(currentLookAt.current);
   });
 
@@ -219,7 +216,6 @@ function FloatingNodes({ activeZone }: { activeZone: string }) {
 function ZoneHotspots({ activeZone }: { activeZone: string }) {
   const groupRef = useRef<THREE.Group>(null);
 
-  // Pulsing hotspot nodes positioned around the world
   const hotspots = useMemo(() => [
     { pos: [3, 1, -3] as [number, number, number], zone: "projects", color: "hsl(270, 80%, 60%)" },
     { pos: [-4, 2, -1] as [number, number, number], zone: "skills", color: "hsl(160, 80%, 45%)" },
@@ -250,7 +246,6 @@ function ZoneHotspots({ activeZone }: { activeZone: string }) {
               opacity={0.7}
             />
           </mesh>
-          {/* Outer glow ring */}
           <mesh position={hotspot.pos} rotation={[Math.PI / 2, 0, 0]}>
             <ringGeometry args={[0.18, 0.22, 32]} />
             <meshStandardMaterial

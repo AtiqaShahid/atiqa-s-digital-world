@@ -95,25 +95,39 @@ const HeroZone = ({ onNavigate }: HeroZoneProps) => {
         </button>
       </motion.div>
 
-      {/* Zone hint indicator */}
+      {/* Floating insight tooltips on hover */}
       <motion.div
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
-        transition={{ delay: 1.2 }}
-        className="absolute bottom-10 flex flex-col items-center gap-2"
+        transition={{ delay: 1.5 }}
+        className="absolute top-[20%] right-[8%] hidden lg:block"
       >
-        <span className="font-mono text-[10px] text-muted-foreground/50 tracking-widest uppercase">
-          Use navigation to explore zones
-        </span>
-        <div className="flex gap-1.5">
-          {["projects", "skills", "about", "contact"].map((z) => (
-            <button
-              key={z}
-              onClick={() => onNavigate(z)}
-              className="h-1.5 w-6 rounded-full bg-muted-foreground/20 hover:bg-primary/50 transition-colors"
-            />
-          ))}
-        </div>
+        <motion.div
+          animate={{ y: [0, -6, 0] }}
+          transition={{ repeat: Infinity, duration: 3, ease: "easeInOut" }}
+          className="glass-panel-subtle rounded-lg px-3 py-2 group cursor-default"
+        >
+          <span className="font-mono text-[10px] text-muted-foreground/50 group-hover:text-primary/80 transition-colors">
+            "Built AI-powered analytics system"
+          </span>
+        </motion.div>
+      </motion.div>
+
+      <motion.div
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ delay: 2.0 }}
+        className="absolute bottom-[25%] left-[6%] hidden lg:block"
+      >
+        <motion.div
+          animate={{ y: [0, 5, 0] }}
+          transition={{ repeat: Infinity, duration: 3.5, ease: "easeInOut", delay: 0.5 }}
+          className="glass-panel-subtle rounded-lg px-3 py-2 group cursor-default"
+        >
+          <span className="font-mono text-[10px] text-muted-foreground/50 group-hover:text-primary/80 transition-colors">
+            "Designed full-scale e-commerce platform"
+          </span>
+        </motion.div>
       </motion.div>
     </div>
   );

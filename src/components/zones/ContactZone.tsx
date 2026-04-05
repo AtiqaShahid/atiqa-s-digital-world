@@ -16,11 +16,6 @@ const ContactZone = () => {
     { icon: MapPin, label: "Location", value: "Pakistan", field: "location" },
   ];
 
-  const socialLinks = [
-    { icon: Github, label: "GitHub", href: "https://github.com/AtiqaShahid" },
-    { icon: Linkedin, label: "LinkedIn", href: "https://linkedin.com/in/atiqa-shahid" },
-  ];
-
   return (
     <div className="relative z-10 h-full px-6 py-20 max-w-4xl mx-auto flex flex-col items-center justify-center">
       <motion.div
@@ -69,36 +64,46 @@ const ContactZone = () => {
         transition={{ delay: 0.2 }}
         className="flex items-center gap-3 mb-8"
       >
-        {socialLinks.map((social) => (
-          <a
-            key={social.label}
-            href={social.href}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="glass-panel rounded-lg px-5 py-3 flex items-center gap-2 hover-glow transition-all hover:scale-105 group"
-          >
-            <social.icon className="h-4 w-4 text-primary group-hover:scale-110 transition-transform" />
-            <span className="font-display text-sm text-foreground">{social.label}</span>
-          </a>
-        ))}
+        <a
+          href="https://github.com/AtiqaShahid"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="glass-panel rounded-lg px-5 py-3 flex items-center gap-2 hover-glow transition-all hover:scale-105 group"
+        >
+          <Github className="h-4 w-4 text-primary group-hover:scale-110 transition-transform" />
+          <span className="font-display text-sm text-foreground">GitHub</span>
+        </a>
+        <a
+          href="https://www.linkedin.com/in/atiqa-shahid/"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="glass-panel rounded-lg px-5 py-3 flex items-center gap-2 transition-all hover:scale-110 group"
+          style={{
+            boxShadow: "0 0 20px hsl(195 100% 50% / 0.2), 0 0 40px hsl(270 80% 60% / 0.1)",
+          }}
+        >
+          <Linkedin className="h-4 w-4 text-primary group-hover:scale-110 transition-transform" />
+          <span className="font-display text-sm text-foreground">LinkedIn</span>
+        </a>
       </motion.div>
 
+      {/* Primary LinkedIn CTA */}
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ delay: 0.3 }}
         className="glass-panel rounded-xl p-8 w-full max-w-lg text-center"
       >
-        <h3 className="font-display font-semibold text-lg mb-3">Prefer to connect directly?</h3>
-        <p className="text-sm text-muted-foreground mb-6">Reach out via LinkedIn for the fastest response.</p>
+        <h3 className="font-display font-semibold text-lg mb-3">Ready to connect?</h3>
+        <p className="text-sm text-muted-foreground mb-6">LinkedIn is the fastest way to reach me.</p>
         <a
-          href="https://linkedin.com/in/atiqa-shahid"
+          href="https://www.linkedin.com/in/atiqa-shahid/"
           target="_blank"
           rel="noopener noreferrer"
-          className="inline-flex items-center gap-2 px-6 py-3 rounded-lg font-display font-medium text-sm text-primary-foreground transition-transform hover:scale-[1.02]"
+          className="group inline-flex items-center gap-2 px-8 py-3.5 rounded-lg font-display font-medium text-sm text-primary-foreground transition-all duration-300 hover:scale-105 hover:shadow-[0_0_30px_hsl(195_100%_50%/0.4),0_0_60px_hsl(270_80%_60%/0.2)]"
           style={{ background: "var(--gradient-hero)" }}
         >
-          <Linkedin className="h-4 w-4" />
+          <Linkedin className="h-5 w-5 group-hover:rotate-6 transition-transform" />
           Connect on LinkedIn
         </a>
       </motion.div>

@@ -35,6 +35,9 @@ const featuredProjects: Project[] = [
     featured: true,
     category: "web",
     group: "animated",
+  },
+  {
+    name: "Nocturne Café Experience",
     description: "An immersive café-themed interactive website combining storytelling, atmosphere, and interactive UI experiences.",
     highlights: [
       "Built a cinematic café environment with atmospheric UI design",
@@ -48,6 +51,7 @@ const featuredProjects: Project[] = [
     link: "https://nocturne-cafe.vercel.app/",
     featured: true,
     category: "web",
+    group: "animated",
   },
   {
     name: "Hooked on Kawaii",
@@ -65,6 +69,7 @@ const featuredProjects: Project[] = [
     link: "https://hooked-on-kawaii.vercel.app/",
     featured: true,
     category: "web",
+    group: "featured",
   },
   {
     name: "Gilded Cocoa",
@@ -81,6 +86,7 @@ const featuredProjects: Project[] = [
     link: "https://gilded-cocoa.vercel.app/",
     featured: true,
     category: "web",
+    group: "animated",
   },
   {
     name: "Ingeniors",
@@ -97,6 +103,7 @@ const featuredProjects: Project[] = [
     link: "https://www.ingeniors.com/",
     featured: true,
     category: "web",
+    group: "deployed",
   },
 ];
 

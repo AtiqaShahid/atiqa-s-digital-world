@@ -21,7 +21,7 @@ const createOscillatorSound = (
 };
 
 export function useSoundSystem() {
-  const [muted, setMuted] = useState(true);
+  const [muted, setMuted] = useState(false);
   const ctxRef = useRef<AudioContext | null>(null);
 
   const getCtx = useCallback(() => {

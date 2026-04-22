@@ -13,6 +13,7 @@ interface Project {
   featured?: boolean;
   status?: string;
   category: "web" | "data";
+  group?: "featured" | "animated" | "deployed";
 }
 
 const featuredProjects: Project[] = [
@@ -33,6 +34,7 @@ const featuredProjects: Project[] = [
     link: "https://personax-seven.vercel.app/",
     featured: true,
     category: "web",
+    group: "animated",
   },
   {
     name: "Nocturne Café Experience",
@@ -49,6 +51,7 @@ const featuredProjects: Project[] = [
     link: "https://nocturne-cafe.vercel.app/",
     featured: true,
     category: "web",
+    group: "animated",
   },
   {
     name: "Hooked on Kawaii",
@@ -66,6 +69,7 @@ const featuredProjects: Project[] = [
     link: "https://hooked-on-kawaii.vercel.app/",
     featured: true,
     category: "web",
+    group: "featured",
   },
   {
     name: "Gilded Cocoa",
@@ -82,6 +86,7 @@ const featuredProjects: Project[] = [
     link: "https://gilded-cocoa.vercel.app/",
     featured: true,
     category: "web",
+    group: "animated",
   },
   {
     name: "Ingeniors",
@@ -98,6 +103,7 @@ const featuredProjects: Project[] = [
     link: "https://www.ingeniors.com/",
     featured: true,
     category: "web",
+    group: "deployed",
   },
 ];
 
@@ -219,12 +225,32 @@ const ProjectsZone = () => {
         </p>
       </motion.div>
 
-      {/* Featured Projects */}
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-12">
-        {featuredProjects.map((project, i) => (
-          <ProjectCard key={project.name} project={project} index={i} onClick={() => setSelectedProject(project)} />
-        ))}
-      </div>
+      {/* Featured Sections */}
+      {(() => {
+        const sections: { key: string; label: string; items: Project[] }[] = [
+          { key: "featured", label: "Featured", items: featuredProjects.filter((p) => p.group === "featured") },
+          { key: "animated", label: "3D / 2D Animated", items: featuredProjects.filter((p) => p.group === "animated") },
+          { key: "deployed", label: "Deployed Site", items: featuredProjects.filter((p) => p.group === "deployed") },
+        ];
+        let runningIndex = 0;
+        return sections.map((section) => (
+          <div key={section.key} className="mb-10">
+            <div className="flex items-center gap-3 mb-4">
+              <div className="h-px flex-1 bg-border/30" />
+              <span className="font-mono text-xs text-primary/80 tracking-widest uppercase">{section.label}</span>
+              <div className="h-px flex-1 bg-border/30" />
+            </div>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              {section.items.map((project) => {
+                const i = runningIndex++;
+                return (
+                  <ProjectCard key={project.name} project={project} index={i} onClick={() => setSelectedProject(project)} />
+                );
+              })}
+            </div>
+          </div>
+        ));
+      })()}
 
       {/* My Smaller Steps */}
       <motion.div

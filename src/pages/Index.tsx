@@ -136,41 +136,7 @@ const Index = () => {
     <div className="relative bg-background w-screen h-screen overflow-hidden">
       <Scene3D activeZone={activeZone} />
       
-      {/* Cinematic intro overlay */}
-      <AnimatePresence>
-        {!cinematicDone && (
-          <motion.div
-            key="cinematic-intro"
-            initial={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            transition={{ duration: 1.2, ease: "easeInOut" }}
-            className="fixed inset-0 z-[55] flex flex-col items-center justify-center pointer-events-none"
-          >
-            <motion.p
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.3, duration: 0.8 }}
-              className="font-mono text-sm sm:text-base text-primary/80 tracking-widest mb-3"
-            >
-              Building immersive digital experiences.
-            </motion.p>
-            <motion.p
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 1.0, duration: 0.8 }}
-              className="font-mono text-xs text-muted-foreground tracking-wider"
-            >
-              Full Stack Developer · Creative Technologist
-            </motion.p>
-            <motion.div
-              initial={{ opacity: 0, scaleX: 0 }}
-              animate={{ opacity: 1, scaleX: 1 }}
-              transition={{ delay: 2.0, duration: 1.0 }}
-              className="mt-6 h-px w-40 bg-gradient-to-r from-transparent via-primary/50 to-transparent"
-            />
-          </motion.div>
-        )}
-      </AnimatePresence>
+      {/* Cinematic intro overlay removed per user request */}
 
       <Navbar activeZone={activeZone} onNavigate={navigateTo} />
       <Minimap activeZone={activeZone} onNavigate={navigateTo} />

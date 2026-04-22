@@ -34,9 +34,7 @@ const featuredProjects: Project[] = [
     link: "https://personax-seven.vercel.app/",
     featured: true,
     category: "web",
-  },
-  {
-    name: "Nocturne Café Experience",
+    group: "animated",
     description: "An immersive café-themed interactive website combining storytelling, atmosphere, and interactive UI experiences.",
     highlights: [
       "Built a cinematic café environment with atmospheric UI design",

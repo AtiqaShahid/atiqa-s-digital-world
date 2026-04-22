@@ -1,4 +1,4 @@
-import { motion } from "framer-motion";
+import { motion, AnimatePresence } from "framer-motion";
 import { useState } from "react";
 import { ExternalLink, X, Github } from "lucide-react";
 
@@ -247,21 +247,39 @@ const ProjectsZone = () => {
         ))}
       </div>
 
-      {/* Project Detail Modal */}
-      {selectedProject && (
-        <motion.div
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          exit={{ opacity: 0 }}
-          className="fixed inset-0 z-[60] flex items-center justify-center p-6 bg-background/80 backdrop-blur-sm"
-          onClick={() => setSelectedProject(null)}
-        >
+      {/* Project Spotlight Modal — cinematic reveal */}
+      <AnimatePresence>
+        {selectedProject && (
           <motion.div
-            initial={{ scale: 0.9, opacity: 0 }}
-            animate={{ scale: 1, opacity: 1 }}
-            className="glass-panel rounded-2xl p-8 max-w-lg w-full max-h-[80vh] overflow-y-auto"
-            onClick={(e) => e.stopPropagation()}
+            initial={{ opacity: 0, backdropFilter: "blur(0px)" }}
+            animate={{ opacity: 1, backdropFilter: "blur(12px)" }}
+            exit={{ opacity: 0, backdropFilter: "blur(0px)" }}
+            transition={{ duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
+            className="fixed inset-0 z-[60] flex items-center justify-center p-6 bg-background/85"
+            onClick={() => setSelectedProject(null)}
           >
+            {/* Animated spotlight glow behind panel */}
+            <motion.div
+              initial={{ opacity: 0, scale: 0.6 }}
+              animate={{ opacity: 1, scale: 1 }}
+              exit={{ opacity: 0, scale: 0.6 }}
+              transition={{ duration: 0.6, delay: 0.1 }}
+              className="absolute inset-0 pointer-events-none"
+              style={{
+                background: "radial-gradient(circle at center, hsl(195 100% 50% / 0.15) 0%, transparent 50%)",
+              }}
+            />
+            <motion.div
+              initial={{ scale: 0.85, opacity: 0, y: 30 }}
+              animate={{ scale: 1, opacity: 1, y: 0 }}
+              exit={{ scale: 0.9, opacity: 0, y: 20 }}
+              transition={{ duration: 0.5, delay: 0.15, ease: [0.22, 1, 0.36, 1] }}
+              className="glass-panel rounded-2xl p-8 max-w-lg w-full max-h-[80vh] overflow-y-auto relative"
+              style={{
+                boxShadow: "0 0 60px hsl(195 100% 50% / 0.25), 0 0 120px hsl(270 80% 60% / 0.15)",
+              }}
+              onClick={(e) => e.stopPropagation()}
+            >
             <div className="flex justify-between items-start mb-4">
               <div>
                 <div className="flex items-center gap-2 mb-1">

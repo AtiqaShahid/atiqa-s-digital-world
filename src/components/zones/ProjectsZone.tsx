@@ -13,6 +13,7 @@ interface Project {
   featured?: boolean;
   status?: string;
   category: "web" | "data";
+  group: "featured" | "animated" | "deployed";
 }
 
 const featuredProjects: Project[] = [

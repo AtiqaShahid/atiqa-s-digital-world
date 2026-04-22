@@ -95,7 +95,7 @@ const featuredProjects: Project[] = [
     ],
     positioning: "Bridges creative 3D web development with real-world data systems and AI integration.",
     tech: ["React", "Three.js", "R3F", "Mapbox", "AI/Chatbot", "APIs", "Full Stack"],
-    link: "https://ingeniors.vercel.app/",
+    link: "https://www.ingeniors.com/",
     featured: true,
     category: "web",
   },
@@ -130,7 +130,6 @@ const smallerProjects: Project[] = [
     name: "Customer Churn Analysis",
     description: "Data analysis project identifying key factors in customer churn using statistical methods and predictive modeling.",
     tech: ["Python", "Pandas", "Data Analysis", "Visualization"],
-    githubLink: "https://github.com/AtiqaShahid/Customer-Churn-analysis",
     category: "data",
   },
   {

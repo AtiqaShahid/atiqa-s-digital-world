@@ -300,6 +300,10 @@ const ProjectsZone = () => {
             transition={{ duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
             className="fixed inset-0 z-[60] flex items-center justify-center p-6 bg-background/85"
             onClick={() => setSelectedProject(null)}
+            onWheel={(e) => e.stopPropagation()}
+            onTouchStart={(e) => e.stopPropagation()}
+            onTouchMove={(e) => e.stopPropagation()}
+            onTouchEnd={(e) => e.stopPropagation()}
           >
             {/* Animated spotlight glow behind panel */}
             <motion.div
@@ -317,7 +321,8 @@ const ProjectsZone = () => {
               animate={{ scale: 1, opacity: 1, y: 0 }}
               exit={{ scale: 0.9, opacity: 0, y: 20 }}
               transition={{ duration: 0.5, delay: 0.15, ease: [0.22, 1, 0.36, 1] }}
-              className="glass-panel rounded-2xl p-8 max-w-lg w-full max-h-[80vh] overflow-y-auto relative"
+              data-zone-content
+              className="glass-panel rounded-2xl p-8 max-w-lg w-full max-h-[80vh] overflow-y-auto relative overscroll-contain"
               style={{
                 boxShadow: "0 0 60px hsl(195 100% 50% / 0.25), 0 0 120px hsl(270 80% 60% / 0.15)",
               }}
@@ -338,6 +343,25 @@ const ProjectsZone = () => {
               </button>
             </div>
             <p className="text-sm text-muted-foreground leading-relaxed mb-4">{selectedProject.description}</p>
+
+            {/* Primary actions surfaced at top so mobile users see them without scrolling */}
+            {(selectedProject.link || selectedProject.githubLink) && (
+              <div className="flex items-center gap-3 mb-5 flex-wrap">
+                {selectedProject.link && (
+                  <a href={selectedProject.link} target="_blank" rel="noopener noreferrer"
+                    className="inline-flex items-center gap-2 px-5 py-2.5 rounded-lg text-sm font-display font-medium text-primary-foreground transition-transform hover:scale-105"
+                    style={{ background: "var(--gradient-hero)" }}>
+                    View Live <ExternalLink className="h-4 w-4" />
+                  </a>
+                )}
+                {selectedProject.githubLink && (
+                  <a href={selectedProject.githubLink} target="_blank" rel="noopener noreferrer"
+                    className="inline-flex items-center gap-2 px-4 py-2.5 rounded-lg text-sm font-display font-medium border border-border text-foreground hover:border-primary/50 transition-colors">
+                    <Github className="h-4 w-4" /> GitHub
+                  </a>
+                )}
+              </div>
+            )}
 
             {selectedProject.highlights && (
               <ul className="space-y-2 mb-4">

@@ -37,8 +37,12 @@ const Index = () => {
   // Scroll-driven zone navigation
   useEffect(() => {
     const handleWheel = (e: WheelEvent) => {
-      // If inside a scrollable overlay with content, allow native scroll
+      // If a project modal (or any dialog) is open, don't hijack scroll
       const target = e.target as HTMLElement;
+      if (target.closest('[role="dialog"]') || document.querySelector('.fixed.z-\\[60\\]')) {
+        return;
+      }
+      // If inside a scrollable overlay with content, allow native scroll
       const scrollable = target.closest('[data-zone-content]');
       if (scrollable) {
         const el = scrollable as HTMLElement;
@@ -75,12 +79,20 @@ const Index = () => {
 
     const handleTouchEnd = (e: TouchEvent) => {
       if (scrollCooldown.current) return;
+      // Don't hijack swipes while a project modal is open
+      const target = e.target as HTMLElement | null;
+      if (target?.closest('[data-zone-content]') && target.closest('.fixed')) {
+        // inside modal — skip
+      }
+      if (document.querySelector('.fixed.z-\\[60\\]')) return;
+
       const deltaY = touchStartY.current - e.changedTouches[0].clientY;
       const currentIdx = ZONES.indexOf(activeZone);
       let nextIdx = currentIdx;
 
-      if (deltaY > 60) nextIdx = Math.min(currentIdx + 1, ZONES.length - 1);
-      else if (deltaY < -60) nextIdx = Math.max(currentIdx - 1, 0);
+      // Require a more deliberate swipe on mobile so taps/short scrolls don't jump zones
+      if (deltaY > 120) nextIdx = Math.min(currentIdx + 1, ZONES.length - 1);
+      else if (deltaY < -120) nextIdx = Math.max(currentIdx - 1, 0);
 
       if (nextIdx !== currentIdx) {
         scrollCooldown.current = true;

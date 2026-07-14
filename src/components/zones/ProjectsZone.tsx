@@ -54,6 +54,24 @@ const featuredProjects: Project[] = [
     group: "animated",
   },
   {
+    name: "Life RPG Quest",
+    description: "An event-driven, real-life gamification platform with WebSocket-powered multiplayer progression, centralized state architecture, and derived XP-to-rank computation.",
+    highlights: [
+      "Event-driven progression engine with deterministic state updates",
+      "Real-time multiplayer social + messaging system",
+      "Centralized state architecture with a single source of truth",
+      "Derived-state XP → Level → Rank computation system",
+      "WebSocket-powered live updates without refresh synchronization",
+      "Modular system design extensible for AI and scaling layers",
+    ],
+    positioning: "A production-grade gamified productivity platform combining real-time multiplayer systems, deterministic progression, and scalable architecture.",
+    tech: ["React", "API", "Node.js", "REST + WebSocket", "Supabase", "NoSQL"],
+    link: "https://life-rpg-quest-one.vercel.app/",
+    featured: true,
+    category: "web",
+    group: "featured",
+  },
+  {
     name: "Hooked on Kawaii",
     description: "A full-scale AI-powered e-commerce and community platform with advanced user interaction and analytics systems.",
     highlights: [

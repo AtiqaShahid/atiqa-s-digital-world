@@ -37,8 +37,12 @@ const Index = () => {
   // Scroll-driven zone navigation
   useEffect(() => {
     const handleWheel = (e: WheelEvent) => {
-      // If inside a scrollable overlay with content, allow native scroll
+      // If a project modal (or any dialog) is open, don't hijack scroll
       const target = e.target as HTMLElement;
+      if (target.closest('[role="dialog"]') || document.querySelector('.fixed.z-\\[60\\]')) {
+        return;
+      }
+      // If inside a scrollable overlay with content, allow native scroll
       const scrollable = target.closest('[data-zone-content]');
       if (scrollable) {
         const el = scrollable as HTMLElement;

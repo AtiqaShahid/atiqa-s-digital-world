@@ -383,26 +383,13 @@ const ProjectsZone = () => {
                 <span key={t} className="font-mono text-xs px-3 py-1 rounded-full border border-border text-muted-foreground">{t}</span>
               ))}
             </div>
-            <div className="flex items-center gap-3">
-              {selectedProject.link && (
-                <a href={selectedProject.link} target="_blank" rel="noopener noreferrer"
-                  className="inline-flex items-center gap-2 px-5 py-2.5 rounded-lg text-sm font-display font-medium text-primary-foreground transition-transform hover:scale-105"
-                  style={{ background: "var(--gradient-hero)" }}>
-                  View Live <ExternalLink className="h-4 w-4" />
-                </a>
-              )}
-              {selectedProject.githubLink && (
-                <a href={selectedProject.githubLink} target="_blank" rel="noopener noreferrer"
-                  className="inline-flex items-center gap-2 px-5 py-2.5 rounded-lg text-sm font-display font-medium border border-border text-foreground hover:border-primary/30 transition-all hover:scale-105">
-                  GitHub <Github className="h-4 w-4" />
-                </a>
-              )}
-              {selectedProject.status && (
+            {selectedProject.status && (
+              <div className="flex">
                 <span className="inline-flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-mono text-neon-orange border border-neon-orange/30">
                   🚧 {selectedProject.status}
                 </span>
-              )}
-            </div>
+              </div>
+            )}
           </motion.div>
         </motion.div>
         )}

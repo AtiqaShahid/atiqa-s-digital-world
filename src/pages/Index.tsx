@@ -1,16 +1,17 @@
-import { useState, useCallback, useEffect, useRef } from "react";
+import { useState, useCallback, useEffect, useRef, lazy, Suspense } from "react";
 import LoadingScreen from "@/components/LoadingScreen";
 import Navbar from "@/components/Navbar";
 import Minimap from "@/components/Minimap";
-import Scene3D from "@/components/Scene3D";
 import SoundToggle from "@/components/SoundToggle";
 import HeroZone from "@/components/zones/HeroZone";
-import ProjectsZone from "@/components/zones/ProjectsZone";
-import SkillsZone from "@/components/zones/SkillsZone";
-import AboutZone from "@/components/zones/AboutZone";
-import ContactZone from "@/components/zones/ContactZone";
 import { useSoundSystem } from "@/hooks/useSoundSystem";
 import { AnimatePresence, motion } from "framer-motion";
+
+const Scene3D = lazy(() => import("@/components/Scene3D"));
+const ProjectsZone = lazy(() => import("@/components/zones/ProjectsZone"));
+const SkillsZone = lazy(() => import("@/components/zones/SkillsZone"));
+const AboutZone = lazy(() => import("@/components/zones/AboutZone"));
+const ContactZone = lazy(() => import("@/components/zones/ContactZone"));
 
 const ZONES = ["hero", "projects", "skills", "about", "contact"];
 
@@ -111,7 +112,7 @@ const Index = () => {
   // Cinematic intro timer
   useEffect(() => {
     if (loaded) {
-      const t = setTimeout(() => setCinematicDone(true), 3500);
+      const t = setTimeout(() => setCinematicDone(true), 800);
       return () => clearTimeout(t);
     }
   }, [loaded]);
@@ -122,7 +123,9 @@ const Index = () => {
 
   return (
     <div className="relative bg-background w-screen h-screen overflow-hidden">
-      <Scene3D activeZone={activeZone} />
+      <Suspense fallback={null}>
+        <Scene3D activeZone={activeZone} />
+      </Suspense>
       
       {/* Cinematic intro overlay removed per user request */}
 
@@ -195,22 +198,22 @@ const Index = () => {
           )}
           {activeZone === "projects" && (
             <motion.div key="projects" {...zoneTransition} className="absolute inset-0 overflow-y-auto" data-zone-content>
-              <ProjectsZone />
+              <Suspense fallback={null}><ProjectsZone /></Suspense>
             </motion.div>
           )}
           {activeZone === "skills" && (
             <motion.div key="skills" {...zoneTransition} className="absolute inset-0 overflow-y-auto" data-zone-content>
-              <SkillsZone />
+              <Suspense fallback={null}><SkillsZone /></Suspense>
             </motion.div>
           )}
           {activeZone === "about" && (
             <motion.div key="about" {...zoneTransition} className="absolute inset-0 overflow-y-auto" data-zone-content>
-              <AboutZone />
+              <Suspense fallback={null}><AboutZone /></Suspense>
             </motion.div>
           )}
           {activeZone === "contact" && (
             <motion.div key="contact" {...zoneTransition} className="absolute inset-0 overflow-y-auto" data-zone-content>
-              <ContactZone />
+              <Suspense fallback={null}><ContactZone /></Suspense>
             </motion.div>
           )}
         </AnimatePresence>

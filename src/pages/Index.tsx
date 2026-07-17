@@ -123,7 +123,9 @@ const Index = () => {
 
   return (
     <div className="relative bg-background w-screen h-screen overflow-hidden">
-      <Scene3D activeZone={activeZone} />
+      <Suspense fallback={null}>
+        <Scene3D activeZone={activeZone} />
+      </Suspense>
       
       {/* Cinematic intro overlay removed per user request */}
 

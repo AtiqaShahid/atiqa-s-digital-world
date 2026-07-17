@@ -112,7 +112,6 @@ const Index = () => {
   // Cinematic intro timer
   useEffect(() => {
     if (loaded) {
-    if (loaded) {
       const t = setTimeout(() => setCinematicDone(true), 800);
       return () => clearTimeout(t);
     }

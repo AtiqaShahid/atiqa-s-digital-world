@@ -264,7 +264,7 @@ function ZoneHotspots({ activeZone }: { activeZone: string }) {
 }
 
 function ParticleField() {
-  const count = 400;
+  const count = typeof window !== "undefined" && window.matchMedia?.("(pointer: coarse)").matches ? 120 : 400;
   const positions = useMemo(() => {
     const p = new Float32Array(count * 3);
     for (let i = 0; i < count; i++) {

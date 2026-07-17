@@ -1,16 +1,17 @@
-import { useState, useCallback, useEffect, useRef } from "react";
+import { useState, useCallback, useEffect, useRef, lazy, Suspense } from "react";
 import LoadingScreen from "@/components/LoadingScreen";
 import Navbar from "@/components/Navbar";
 import Minimap from "@/components/Minimap";
-import Scene3D from "@/components/Scene3D";
 import SoundToggle from "@/components/SoundToggle";
 import HeroZone from "@/components/zones/HeroZone";
-import ProjectsZone from "@/components/zones/ProjectsZone";
-import SkillsZone from "@/components/zones/SkillsZone";
-import AboutZone from "@/components/zones/AboutZone";
-import ContactZone from "@/components/zones/ContactZone";
 import { useSoundSystem } from "@/hooks/useSoundSystem";
 import { AnimatePresence, motion } from "framer-motion";
+
+const Scene3D = lazy(() => import("@/components/Scene3D"));
+const ProjectsZone = lazy(() => import("@/components/zones/ProjectsZone"));
+const SkillsZone = lazy(() => import("@/components/zones/SkillsZone"));
+const AboutZone = lazy(() => import("@/components/zones/AboutZone"));
+const ContactZone = lazy(() => import("@/components/zones/ContactZone"));
 
 const ZONES = ["hero", "projects", "skills", "about", "contact"];
 

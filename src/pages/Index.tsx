@@ -198,22 +198,22 @@ const Index = () => {
           )}
           {activeZone === "projects" && (
             <motion.div key="projects" {...zoneTransition} className="absolute inset-0 overflow-y-auto" data-zone-content>
-              <ProjectsZone />
+              <Suspense fallback={null}><ProjectsZone /></Suspense>
             </motion.div>
           )}
           {activeZone === "skills" && (
             <motion.div key="skills" {...zoneTransition} className="absolute inset-0 overflow-y-auto" data-zone-content>
-              <SkillsZone />
+              <Suspense fallback={null}><SkillsZone /></Suspense>
             </motion.div>
           )}
           {activeZone === "about" && (
             <motion.div key="about" {...zoneTransition} className="absolute inset-0 overflow-y-auto" data-zone-content>
-              <AboutZone />
+              <Suspense fallback={null}><AboutZone /></Suspense>
             </motion.div>
           )}
           {activeZone === "contact" && (
             <motion.div key="contact" {...zoneTransition} className="absolute inset-0 overflow-y-auto" data-zone-content>
-              <ContactZone />
+              <Suspense fallback={null}><ContactZone /></Suspense>
             </motion.div>
           )}
         </AnimatePresence>

@@ -72,42 +72,18 @@ const Index = () => {
       }
     };
 
-    // Touch support for mobile
-    const handleTouchStart = (e: TouchEvent) => {
-      touchStartY.current = e.touches[0].clientY;
-    };
+    // Touch-swipe zone navigation is intentionally disabled on mobile.
+    // On touch devices, users navigate zones via the Navbar/Minimap and
+    // scroll natively within a zone. This prevents accidental jumps
+    // (e.g. from Projects → Skills) while scrolling through content.
+    const isTouchDevice = typeof window !== "undefined" &&
+      (window.matchMedia?.("(pointer: coarse)").matches || "ontouchstart" in window);
 
-    const handleTouchEnd = (e: TouchEvent) => {
-      if (scrollCooldown.current) return;
-      // Don't hijack swipes while a project modal is open
-      const target = e.target as HTMLElement | null;
-      if (target?.closest('[data-zone-content]') && target.closest('.fixed')) {
-        // inside modal — skip
-      }
-      if (document.querySelector('.fixed.z-\\[60\\]')) return;
-
-      const deltaY = touchStartY.current - e.changedTouches[0].clientY;
-      const currentIdx = ZONES.indexOf(activeZone);
-      let nextIdx = currentIdx;
-
-      // Require a more deliberate swipe on mobile so taps/short scrolls don't jump zones
-      if (deltaY > 120) nextIdx = Math.min(currentIdx + 1, ZONES.length - 1);
-      else if (deltaY < -120) nextIdx = Math.max(currentIdx - 1, 0);
-
-      if (nextIdx !== currentIdx) {
-        scrollCooldown.current = true;
-        setActiveZone(ZONES[nextIdx]);
-        setTimeout(() => { scrollCooldown.current = false; }, 1200);
-      }
-    };
-
-    window.addEventListener("wheel", handleWheel, { passive: false });
-    window.addEventListener("touchstart", handleTouchStart, { passive: true });
-    window.addEventListener("touchend", handleTouchEnd, { passive: true });
+    if (!isTouchDevice) {
+      window.addEventListener("wheel", handleWheel, { passive: false });
+    }
     return () => {
       window.removeEventListener("wheel", handleWheel);
-      window.removeEventListener("touchstart", handleTouchStart);
-      window.removeEventListener("touchend", handleTouchEnd);
     };
   }, [activeZone]);
 

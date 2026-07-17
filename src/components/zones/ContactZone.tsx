@@ -74,7 +74,7 @@ const ContactZone = () => {
           <span className="font-display text-sm text-foreground">GitHub</span>
         </a>
         <a
-          href="https://www.linkedin.com/in/atiqa-shahid/"
+href="https://www.linkedin.com/in/atiqa-shahid-b37036326/"
           target="_blank"
           rel="noopener noreferrer"
           className="glass-panel rounded-lg px-5 py-3 flex items-center gap-2 transition-all hover:scale-110 group"
@@ -97,7 +97,7 @@ const ContactZone = () => {
         <h3 className="font-display font-semibold text-lg mb-3">Ready to connect?</h3>
         <p className="text-sm text-muted-foreground mb-6">LinkedIn is the fastest way to reach me.</p>
         <a
-          href="https://www.linkedin.com/in/atiqa-shahid/"
+          href="https://www.linkedin.com/in/atiqa-shahid-b37036326/"
           target="_blank"
           rel="noopener noreferrer"
           className="group inline-flex items-center gap-2 px-8 py-3.5 rounded-lg font-display font-medium text-sm text-primary-foreground transition-all duration-300 hover:scale-105 hover:shadow-[0_0_30px_hsl(195_100%_50%/0.4),0_0_60px_hsl(270_80%_60%/0.2)]"

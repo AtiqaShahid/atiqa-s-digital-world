@@ -326,12 +326,14 @@ interface Scene3DProps {
 }
 
 const Scene3D = ({ activeZone = "hero" }: Scene3DProps) => {
+  const isMobile = typeof window !== "undefined" && window.matchMedia?.("(pointer: coarse)").matches;
   return (
     <div className="fixed inset-0 z-0">
       <Canvas
         camera={{ position: [0, 0, 8], fov: 60 }}
-        dpr={[1, 1.5]}
-        gl={{ antialias: true, alpha: true }}
+        dpr={isMobile ? [1, 1] : [1, 1.5]}
+        gl={{ antialias: !isMobile, alpha: true, powerPreference: "high-performance" }}
+        frameloop="always"
       >
         <Suspense fallback={null}>
           <CameraController activeZone={activeZone} />
@@ -343,7 +345,7 @@ const Scene3D = ({ activeZone = "hero" }: Scene3DProps) => {
           <ZoneHotspots activeZone={activeZone} />
           <GridFloor />
           <ParticleField />
-          <Stars radius={50} depth={50} count={1500} factor={2} saturation={0.5} fade speed={0.3} />
+          <Stars radius={50} depth={50} count={isMobile ? 400 : 1500} factor={2} saturation={0.5} fade speed={0.3} />
 
           <fog attach="fog" args={["hsl(230, 25%, 5%)", 6, 25]} />
         </Suspense>
